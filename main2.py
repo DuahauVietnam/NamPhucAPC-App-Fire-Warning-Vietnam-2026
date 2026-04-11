@@ -1,6 +1,6 @@
-import os
-
-# --- CẤU HÌNH --- # Lấy mã từ biến môi trường của GitHub
+import os 
+# -*- coding: utf-8 -*-
+# Lấy mã từ biến môi trường của GitHub
 NASA_MAP_KEY = os.getenv("719970f391a4c03e8343479f97d37c6b")
 TELEGRAM_TOKEN = os.getenv("8755390549:AAEMUVKGDyLKJc1XEuLRDs9iIfeBzBrhRVA")
 CHAT_ID = os.getenv("1003717660062")
