@@ -1,0 +1,29 @@
+name: Tự động quét cháy rừng Tây Nguyên
+
+on:
+  schedule:
+    # Chạy mỗi 3 tiếng một lần (giờ quốc tế UTC)
+    - cron: '0 */3 * * *'
+  workflow_dispatch: # Cho phép bạn bấm chạy thủ công bất cứ lúc nào
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kiểm tra mã nguồn
+        uses: actions/checkout@v3
+
+      - name: Cài đặt Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Cài đặt thư viện
+        run: pip install requests pandas
+
+      - name: Chạy script cảnh báo
+        env:
+          NASA_MAP_KEY: ${{ secrets.NASA_MAP_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python main2.py
