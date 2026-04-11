@@ -21,25 +21,40 @@ def check_for_fires():
         response = requests.get(url)
         if response.status_code == 200:
             lines = response.text.strip().split('\n')
-            if len(lines) > 1: # Có dữ liệu (Dòng 0 là tiêu đề)
-                latest_fire = lines[1].split(',') # Lấy điểm cháy mới nhất
+            
+            # TRƯỜNG HỢP 1: CÓ ĐIỂM CHÁY (Dòng 0 là tiêu đề, từ dòng 1 là dữ liệu)
+            if len(lines) > 1: 
+                latest_fire = lines[1].split(',') 
                 lat, lon = latest_fire[0], latest_fire[1]
-                conf = latest_fire[8] # Độ tin cậy (Confidence)
+                conf = latest_fire[8]
                 
-                # Tạo nội dung tin nhắn theo phong cách báo chí tối giản
                 alert_msg = (
-                    f"🚨 *CẢNH BÁO NGUY CƠ CHÁY RỪNG KHU VỰC TÂY NGUYÊN*\n\n"
+                    f"🚨 *CẢNH BÁO CHÁY RỪNG TÂY NGUYÊN*\n\n"
                     f"📍 Vị trí: `{lat}, {lon}`\n"
                     f"🔥 Độ tin cậy: {conf}\n"
                     f"⏰ Cập nhật: {time.strftime('%H:%M:%S')}\n\n"
-                    f"[Xem trên bản đồ](https://www.google.com/maps/search/?api=1&query={lat},{lon})"
+                    f"[Xem trên bản đồ](https://www.google.com/maps?q={lat},{lon})"
                 )
                 send_telegram_alert(alert_msg)
-                print("Đã gửi cảnh báo tới Telegram!")
+                print("Đã gửi cảnh báo cháy!")
+
+            # TRƯỜNG HỢP 2: KHÔNG CÓ ĐIỂM CHÁY (Chỉ có dòng tiêu đề)
             else:
-                print("Hiện tại rừng vẫn an toàn.")
+                safe_msg = (
+                    f"🌿 *BÁO CÁO HÀNG GIỜ*\n\n"
+                    f"✅ **Mọi thứ đều xanh tươi!**\n"
+                    f"📡 Hệ thống đã quét toàn bộ Tây Nguyên và không phát hiện điểm nhiệt bất thường.\n"
+                    f"⏰ Thời điểm kiểm tra: {time.strftime('%H:%M:%S')}"
+                )
+                send_telegram_alert(safe_msg)
+                print("Đã gửi thông báo an toàn!")
+                
+        else:
+            print(f"Lỗi kết nối NASA: {response.status_code}")
+            
     except Exception as e:
-        print(f"Lỗi: {e}")
+        print(f"Lỗi hệ thống: {e}")
+        
 
 # Chạy kiểm tra
 check_for_fires()
