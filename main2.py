@@ -1,9 +1,9 @@
 import os 
 # -*- coding: utf-8 -*-
 # Lấy mã từ biến môi trường của GitHub
-NASA_MAP_KEY = os.getenv("719970f391a4c03e8343479f97d37c6b")
-TELEGRAM_TOKEN = os.getenv("8755390549:AAEMUVKGDyLKJc1XEuLRDs9iIfeBzBrhRVA")
-CHAT_ID = os.getenv("1003717660062")
+NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
 # Tọa độ Tây Nguyên (Bounding Box)
 AREA = "107,11,110,16" 
