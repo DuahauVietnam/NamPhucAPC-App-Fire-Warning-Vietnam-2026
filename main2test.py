@@ -15,6 +15,25 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 OW_KEY = os.getenv("OW_KEY")
 
+### LẤY ĐỊA CHỈ TỪ TỌA ĐỘ
+def get_location_name(lat, lon):
+    try:
+        # Sử dụng Reverse Geocoding API của OpenWeather
+        url = f"http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={OW_KEY}"
+        response = requests.get(url)
+        res = response.json()
+        
+        if response.status_code == 200 and len(res) > 0:
+            location = res[0]
+            name = location.get('name', '')  # Thường là tên xã hoặc huyện
+            state = location.get('state', '') # Thường là tên tỉnh
+            return f"{name}, {state}"
+        return "Không xác định được địa danh"
+    except Exception as e:
+        print(f"Lỗi lấy địa danh: {e}")
+        return "Lỗi địa danh"
+
+
 def get_weather(lat, lon):
     try:
         # Sử dụng API Current Weather Data
@@ -64,6 +83,10 @@ def check_for_fires():
         latest_fire = lines[1].split(',')
         lat, lon = latest_fire[0], latest_fire[1]
         conf = latest_fire[8]
+
+        # 1. Lấy địa danh
+        dia_danh = get_location_name(lat, lon)
+        # 2. Lấy thời tiết (nhiệt độ, độ ẩm, hướng gió)
         
          # Giờ Việt Nam
         now_vn = datetime.utcnow() + timedelta(hours=7)
@@ -76,9 +99,10 @@ def check_for_fires():
         
         alert_msg = (
             f"🔥 🔥 🔥 \n"
-            f"🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n"
+            f"🔥 **TEST: CẢNH BÁO NGUY CƠ CHÁY **\n"
             f"⏰ Thời gian: {gio_vn}\n\n"
-            f"📍 Vị trí: `{lat}, {lon}`\n"
+            f"📍 Vị trí: {dia_danh}\n"
+            f"📍 Tọa độ : `{lat}, {lon}`\n"
             f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon})\n"
             f"{weather_info}\n\n"
             f"💪 Độ tin cậy: {conf}%\n\n"
