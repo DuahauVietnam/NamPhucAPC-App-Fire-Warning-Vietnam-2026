@@ -1,19 +1,28 @@
+import json # Thêm thư viện này ở đầu file 
 import os
-import requests  # <-- ĐÂY LÀ DÒNG ĐANG THIẾU
+import requests  
 import time
 import pandas as pd
 # -*- coding: utf-8 -*-
+# Tọa độ Tây Nguyên (Bounding Box)
+AREA = "107,11.5,110,15.5" 
+
+##======================================================================================================
+# Lấy mã từ biến môi trường của GitHub
+NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+OW_KEY = os.getenv("OW_KEY")
+
+##======================================================================================================
+
 from datetime import datetime, timedelta
 # Tính toán giờ Việt Nam (UTC+7)
 now_utc = datetime.utcnow()
 now_vn = now_utc + timedelta(hours=7)
 gio_hien_tai = now_vn.strftime('%H:%M:%S %D')
 
-# Lấy mã từ biến môi trường của GitHub
-NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-OW_KEY = os.getenv("OW_KEY")
+##======================================================================================================
 
 ### LẤY ĐỊA CHỈ TỪ TỌA ĐỘ
 def get_location_name(lat, lon):
@@ -50,16 +59,7 @@ def get_location_name(lat, lon):
         print(f"Lỗi lấy địa danh: {e}")
         return "Tọa độ tại Tây Nguyên"
 
-def get_fire_danger(temp, humidity):
-    if temp > 35 and humidity < 30:
-        return "CẤP V (CỰC KỲ NGUY HIỂM) 🔴"
-    elif temp > 32 and humidity < 40:
-        return "CẤP IV (NGUY HIỂM) 🟠 "
-    elif temp > 28 and humidity < 50:
-        return "CẤP III (CAO) 🟡 "
-    else:
-        return "ẤP I - II (THẤP/TRUNG BÌNH) 🟢 C"
-
+##======================================================================================================
 
 def get_weather(lat, lon):
     try:
@@ -74,9 +74,19 @@ def get_weather(lat, lon):
         return temp, humidity, wind_kmh
     except:
         return None, None, None
+
+def get_fire_danger(temp, humidity):
+    if temp > 35 and humidity < 30:
+        return "CẤP V (CỰC KỲ NGUY HIỂM) 🔴"
+    elif temp > 32 and humidity < 40:
+        return "CẤP IV (NGUY HIỂM) 🟠 "
+    elif temp > 28 and humidity < 50:
+        return "CẤP III (CAO) 🟡 "
+    else:
+        return "ẤP I - II (THẤP/TRUNG BÌNH) 🟢 C"
         
-# Tọa độ Tây Nguyên (Bounding Box)
-AREA = "107,11.5,110,15.5" 
+##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 def send_telegram_alert(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"}
@@ -86,6 +96,35 @@ def send_telegram_alert(message):
     print(f"Kết quả gửi Telegram: {response.status_code} - {response.text}")
 
 
+def send_telegram_pro(msg, lat=None, lon=None):
+    """Gửi tin nhắn kèm nút bấm Inline Keyboard"""
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"    
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": msg,
+        "parse_mode": "Markdown"
+    }
+
+    # Nếu có tọa độ, thêm các nút bấm tương tác
+    if lat and lon:
+        keyboard = {
+            "inline_keyboard": [
+                [
+                    {"text": "📍 Xem Vệ Tinh", "url": f"https://www.google.com/maps/@{lat},{lon},15z/data=!3m1!1e3"},
+                    {"text": "📞 Báo Kiểm Lâm", "url": "phone:114"}
+                ],
+                [
+                    {"text": "📊 Bản đồ NASA", "url": "https://firms.modaps.eosdis.nasa.gov/map/"}
+                ]
+            ]
+        }
+        payload["reply_markup"] = json.dumps(keyboard)
+
+    requests.post(url, data=payload)
+
+
+
+##======================================================================================================
 def check_for_fires():
     # 1. Chế độ TEST nhanh: 
     # Đặt TEST_MODE = True nếu bạn muốn nhận tin nhắn báo cháy ngay lập tức
@@ -146,7 +185,7 @@ def check_for_fires():
             f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
                        
         )
-        send_telegram_alert(alert_msg)
+        send_telegram_pro(alert_msg, lat, lon)
         print("Đã gửi tin nhắn Test thành công!")
     else:
         # Trường hợp thật mà không có cháy
@@ -156,9 +195,6 @@ def check_for_fires():
             f"📡 Hệ thống đã quét toàn bộ Tây Nguyên và không phát hiện điểm nhiệt bất thường.\n"
             f"⏰ Thời điểm kiểm tra: {gio_vn} (Giờ VN) \n"
             f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
-        
-        
-        
         )
 
         
