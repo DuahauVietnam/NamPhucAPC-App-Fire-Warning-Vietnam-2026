@@ -75,12 +75,12 @@ def check_for_fires():
 
         
         alert_msg = (
-            f"🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n"
+            f"\n\n\n🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n"
             f"⏰ Thời gian: {gio_vn}\n\n"
             f"📍 Vị trí: `{lat}, {lon}`\n"
-            f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon}\n)"
+            f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon})\n"
             f"{weather_info}\n\n"
-            f"💪 Độ tin cậy: {conf}%\n/n"
+            f"💪 Độ tin cậy: {conf}%\n\n"
             f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 90% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n"
             f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là 39°C và độ ẩm chỉ 20%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức."
             
