@@ -28,5 +28,5 @@ jobs:
           NASA_MAP_KEY: ${{ secrets.NASA_MAP_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-          OPENWEATHER_KEY: ${{ secrets.OW_KEY }}
+          OW_KEY: ${{ secrets.OW_KEY }}
         run: python main2test.py
