@@ -137,7 +137,7 @@ def check_for_fires():
             f"💨 ** Tốc độ gió : {wind_kmh} kmh \n"
             f"⚠️ ** Dự báo : {cap_bao_dong}\n"
             f"----------------------------------\n"
-            f"⏰ **Cập nhật:** {gio_vn} (Giờ VN)\n"
+            f"⏰ **Cập nhật : {gio_vn} (Giờ VN)\n"
             f"💪 Độ tin cậy: {conf}%\n\n"
             f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 90% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n"
             f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 39°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức. \n"
@@ -150,7 +150,16 @@ def check_for_fires():
         print("Đã gửi tin nhắn Test thành công!")
     else:
         # Trường hợp thật mà không có cháy
-        send_telegram_alert("🌿 Mọi thứ đều xanh tươi!")
+        send_telegram_alert(
+            f"🌿 BÁO CÁO HÀNG GIỜ\n"
+            f"🌿 Mọi thứ đều xanh tươi! \n\n"
+            f"📡 Hệ thống đã quét toàn bộ Tây Nguyên và không phát hiện điểm nhiệt bất thường.\n"
+            f"⏰ Thời điểm kiểm tra: {gio_vn} (Giờ VN) \n"
+            f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
+        
+        
+        
+        )
 
         
 
