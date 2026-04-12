@@ -3,6 +3,12 @@ import requests  # <-- ĐÂY LÀ DÒNG ĐANG THIẾU
 import time
 import pandas as pd
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
+# Tính toán giờ Việt Nam (UTC+7)
+now_utc = datetime.utcnow()
+now_vn = now_utc + timedelta(hours=7)
+gio_hien_tai = now_vn.strftime('%H:%M:%S')
+
 # Lấy mã từ biến môi trường của GitHub
 NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -48,11 +54,13 @@ def check_for_fires():
         conf = latest_fire[8]
         
         alert_msg = (
-            f"🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n\n"
+            f"🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n"
+            f"⏰ Giờ kiểm tra: {gio_hien_tai}\n\n"
             f"📍 Vị trí: `{lat}, {lon}`\n"
+            f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon}\n\n)"
             f"💪 Độ tin cậy: {conf}%\n"
-            f"⏰ Giờ kiểm tra: {time.strftime('%H:%M:%S')}\n\n"
-            f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon})"
+            
+            
         )
         send_telegram_alert(alert_msg)
         print("Đã gửi tin nhắn Test thành công!")
