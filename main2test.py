@@ -95,9 +95,9 @@ def send_telegram_alert(message):
     # Dòng này sẽ in ra kết quả phản hồi của Telegram lên GitHub Log
     print(f"Kết quả gửi Telegram: {response.status_code} - {response.text}")
 
-
+##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def send_telegram_pro(message, lat=None, lon=None):
-    """Gửi tin nhắn kèm nút bấm Inline Keyboard"""
+   ## """Gửi tin nhắn kèm nút bấm Inline Keyboard"""
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"    
     payload = { "chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"
     }
@@ -180,8 +180,8 @@ def check_for_fires():
             f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
                        
         )
-        send_telegram_alert(alert_msg)
-        ## send_telegram_pro(alert_msg, lat, lon)
+        ##send_telegram_alert(alert_msg)
+        send_telegram_pro(alert_msg, lat, lon)
         print("Đã gửi tin nhắn Test thành công!")
     else:
         # Trường hợp thật mà không có cháy
