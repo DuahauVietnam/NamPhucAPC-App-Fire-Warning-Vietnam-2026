@@ -18,11 +18,8 @@ def send_telegram_alert(message):
     # Dòng này sẽ in ra kết quả phản hồi của Telegram lên GitHub Log
     print(f"Kết quả gửi Telegram: {response.status_code} - {response.text}")
 
-def check_for_fires():
-    # Gọi API NASA lấy dữ liệu CSV
-    url = f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{NASA_MAP_KEY}/VIIRS_SNPP_NRT/{AREA}/1"
 
-    def check_for_fires():
+def check_for_fires():
     # Giả lập dữ liệu giống hệt format của NASA
     fake_csv_data = "latitude,longitude,brightness,scan,track,acq_date,acq_time,satellite,confidence,version,bright_t31,frp,daynight\n13.502,105.123,340.5,0.4,0.4,2026-04-12,08:30,N,95,6.1N,285.4,15.2,D"
     
@@ -42,6 +39,10 @@ def check_for_fires():
         )
         send_telegram_alert(alert_msg)
 
+
+def check_for_fires():
+    # Gọi API NASA lấy dữ liệu CSV
+    url = f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{NASA_MAP_KEY}/VIIRS_SNPP_NRT/{AREA}/1"
     
     try:
         response = requests.get(url)
