@@ -96,22 +96,18 @@ def send_telegram_alert(message):
     print(f"Kết quả gửi Telegram: {response.status_code} - {response.text}")
 
 
-def send_telegram_pro(msg, lat=None, lon=None):
+def send_telegram_pro(message, lat=None, lon=None):
     """Gửi tin nhắn kèm nút bấm Inline Keyboard"""
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"    
-    payload = {
-        "chat_id": CHAT_ID,
-        "text": msg,
-        "parse_mode": "Markdown"
+    payload = { "chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"
     }
-
     # Nếu có tọa độ, thêm các nút bấm tương tác
     if lat and lon:
         keyboard = {
             "inline_keyboard": [
                 [
                     {"text": "📍 Xem Vệ Tinh", "url": f"https://www.google.com/maps/@{lat},{lon},15z/data=!3m1!1e3"},
-                    {"text": "📞 Báo Kiểm Lâm", "url": "phone:114"}
+                    {"text": "📞 Báo Kiểm Lâm", "url": "tel:114"}
                 ],
                 [
                     {"text": "📊 Bản đồ NASA", "url": "https://firms.modaps.eosdis.nasa.gov/map/"}
@@ -180,7 +176,7 @@ def check_for_fires():
             f"💪 Độ tin cậy: {conf}%\n\n"
             f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 90% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n"
             f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 39°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức. \n"            
-            f" ☎️ Hotline báo cháy :  1 1 4 \n\n"
+            f" ☎️ Hotline báo cháy :  1️⃣ 1️⃣ 4️⃣ \n\n"
             f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
                        
         )
@@ -188,7 +184,7 @@ def check_for_fires():
         print("Đã gửi tin nhắn Test thành công!")
     else:
         # Trường hợp thật mà không có cháy
-        send_telegram_alert(
+        send_telegram_pro(
             f"🌿 BÁO CÁO HÀNG GIỜ\n"
             f"🌿 Mọi thứ đều xanh tươi! \n\n"
             f"📡 Hệ thống đã quét toàn bộ Tây Nguyên và không phát hiện điểm nhiệt bất thường.\n"
