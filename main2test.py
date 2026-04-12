@@ -52,13 +52,13 @@ def get_location_name(lat, lon):
 
 def get_fire_danger(temp, humidity):
     if temp > 35 and humidity < 30:
-        return "🔴 CẤP V (CỰC KỲ NGUY HIỂM)"
+        return "CẤP V (CỰC KỲ NGUY HIỂM) 🔴"
     elif temp > 32 and humidity < 40:
-        return "🟠 CẤP IV (NGUY HIỂM)"
+        return "CẤP IV (NGUY HIỂM) 🟠 "
     elif temp > 28 and humidity < 50:
-        return "🟡 CẤP III (CAO)"
+        return "CẤP III (CAO) 🟡 "
     else:
-        return "🟢 CẤP I - II (THẤP/TRUNG BÌNH)"
+        return "ẤP I - II (THẤP/TRUNG BÌNH) 🟢 C"
 
 
 def get_weather(lat, lon):
@@ -132,17 +132,18 @@ def check_for_fires():
             f"📍 **Địa danh:** {dia_danh}\n"
             f"🌍 **Tọa độ:** `{lat}, {lon}`\n"
             f"🔗 [Mở Bản Đồ Vệ Tinh](https://www.google.com/maps?q={lat},{lon}&t=k)\n\n"
-            f"🌡  {temp}°C 🌡\n"
-            f"💧 {humidity}% 💧\n"
-            f"💨 {wind_kmh} kmh 💨\n"
-            f"⚠️ **Dự báo :** {cap_bao_dong}\n"
+            f"🌡 ** Nhệt độ : {temp}°C 🌡\n"
+            f"💧 ** Độ ẩm : {humidity}% \n"
+            f"💨 ** Tốc độ gió : {wind_kmh} kmh \n"
+            f"⚠️ ** Dự báo : {cap_bao_dong}\n"
             f"----------------------------------\n"
             f"⏰ **Cập nhật:** {gio_vn} (Giờ VN)\n"
             f"💪 Độ tin cậy: {conf}%\n\n"
             f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 90% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n"
-            f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 39°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức."
-            f" (Copyright 2026 - NamPhucAPC - 0888801202) "
-            f" 🇻🇳  🆘 Hotline báo cháy ☎️ 1️⃣1️⃣4️⃣"
+            f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 39°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức. \n"
+            
+            f" ☎️ Hotline báo cháy :  1️⃣1️⃣4️⃣\n\n\"
+            f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
                        
         )
         send_telegram_alert(alert_msg)
