@@ -59,9 +59,7 @@ def check_for_fires():
     else:
         # Trường hợp thật mà không có cháy
         send_telegram_alert("🌿 Mọi thứ đều xanh tươi!")
-            
-    except Exception as e:
-        print(f"Lỗi hệ thống: {e}")
+
         
 
 # Chạy kiểm tra
