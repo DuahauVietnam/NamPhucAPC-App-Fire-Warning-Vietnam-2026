@@ -180,11 +180,13 @@ def check_for_fires():
             f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
                        
         )
-        send_telegram_pro(alert_msg, lat, lon)
+        send_telegram_alert(alert_msg)
+        ## send_telegram_pro(alert_msg, lat, lon)
         print("Đã gửi tin nhắn Test thành công!")
     else:
         # Trường hợp thật mà không có cháy
-        send_telegram_pro(
+        ## send_telegram_pro(
+        send_telegram_alert(
             f"🌿 BÁO CÁO HÀNG GIỜ\n"
             f"🌿 Mọi thứ đều xanh tươi! \n\n"
             f"📡 Hệ thống đã quét toàn bộ Tây Nguyên và không phát hiện điểm nhiệt bất thường.\n"
