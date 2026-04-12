@@ -13,7 +13,19 @@ gio_hien_tai = now_vn.strftime('%H:%M:%S %D')
 NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
+OW_KEY = os.getenv("OW_KEY")
 
+def get_weather(lat, lon):
+    try:
+        # Sử dụng API Current Weather Data
+        url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={OW_KEY}&units=metric"
+        res = requests.get(url).json()
+        temp = res['main']['temp']
+        humidity = res['main']['humidity']
+        return temp, humidity
+    except:
+        return None, None
+        
 # Tọa độ Tây Nguyên (Bounding Box)
 AREA = "107,11.5,110,15.5" 
 def send_telegram_alert(message):
@@ -53,12 +65,24 @@ def check_for_fires():
         lat, lon = latest_fire[0], latest_fire[1]
         conf = latest_fire[8]
         
+         # Giờ Việt Nam
+        now_vn = datetime.utcnow() + timedelta(hours=7)
+        gio_vn = now_vn.strftime('%H:%M:%S %D')
+        # Gọi hàm lấy thời tiết tại chính tọa độ điểm cháy
+        temp, humidity = get_weather(lat, lon)       
+        # Nội dung tin nhắn kết hợp
+        weather_info = f"🌡 Nhiệt độ: {temp}°C | 💧 Độ ẩm: {humidity}%" if temp else "⚠️ Không lấy được dữ liệu thời tiết"
+
+        
         alert_msg = (
             f"🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n"
-            f"⏰ Thời gian: {gio_hien_tai}\n\n"
+            f"⏰ Thời gian: {gio_vn}\n\n"
             f"📍 Vị trí: `{lat}, {lon}`\n"
-            f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon}\n\n)"
-            f"💪 Độ tin cậy: {conf}%\n"
+            f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon}\n)"
+            f"{weather_info}\n\n"
+            f"💪 Độ tin cậy: {conf}%\n/n"
+            f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 90% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n"
+            f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là 39°C và độ ẩm chỉ 20%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức."
             
             
         )
