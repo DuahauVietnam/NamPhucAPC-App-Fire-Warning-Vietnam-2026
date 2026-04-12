@@ -134,7 +134,7 @@ def check_for_fires():
             f"🔗 [Mở Bản Đồ Vệ Tinh](https://www.google.com/maps?q={lat},{lon}&t=k)\n\n"
             f"🌡 **Nhiệt độ:** 🌡 {temp}°C\n"
             f"💧 **Độ ẩm:** 💧 {humidity}%\n"
-            f"💨 **Tốc độ gió:** {wind} km/h\n"
+            f"💨 **Tốc độ gió:** {wind_kmh}\n"
             f"⚠️ **Dự báo :** {cap_bao_dong}\n"
             f"----------------------------------\n"
             f"⏰ **Cập nhật:** {gio_vn} (Giờ VN)\n"
