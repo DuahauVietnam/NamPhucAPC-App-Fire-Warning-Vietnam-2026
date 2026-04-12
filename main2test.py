@@ -75,7 +75,8 @@ def check_for_fires():
 
         
         alert_msg = (
-            f"\n\n\n🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n"
+            f"🔥 🔥 🔥 \n"
+            f"🔥 **TEST: CẢNH BÁO CHÁY GIẢ LẬP**\n"
             f"⏰ Thời gian: {gio_vn}\n\n"
             f"📍 Vị trí: `{lat}, {lon}`\n"
             f"🔗 [Mở Google Maps](https://www.google.com/maps?q={lat},{lon})\n"
