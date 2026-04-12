@@ -180,8 +180,8 @@ def check_for_fires():
             f" (Copyright 🇻🇳 2026 - NamPhucAPC - 0888801202) \n "
                        
         )
-        ##send_telegram_alert(alert_msg)
-        send_telegram_pro(alert_msg, lat, lon)
+        send_telegram_alert(alert_msg)
+        ##send_telegram_pro(alert_msg, lat, lon)
         print("Đã gửi tin nhắn Test thành công!")
     else:
         # Trường hợp thật mà không có cháy
