@@ -28,4 +28,4 @@ jobs:
           NASA_MAP_KEY: ${{ secrets.NASA_MAP_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-        run: python main2.py
+        run: python main2test.py
