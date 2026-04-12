@@ -83,7 +83,7 @@ def get_fire_danger(temp, humidity):
     elif temp > 28 and humidity < 50:
         return "CẤP III (CAO) 🟡 "
     else:
-        return "ẤP I - II (THẤP/TRUNG BÌNH) 🟢 C"
+        return "CẤP I - II (THẤP/TRUNG BÌNH) 🟢 "
         
 ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -167,7 +167,7 @@ def check_for_fires():
             f"📍 **Địa danh:** {dia_danh}\n"
             f"🌍 **Tọa độ:** `{lat}, {lon}`\n"
             f"🔗 [Mở Bản Đồ Vệ Tinh](https://www.google.com/maps?q={lat},{lon}&t=k)\n\n"
-            f"🌡 ** Nhệt độ : {temp}°C 🌡\n"
+            f"🌡 ** Nhiệt độ : {temp}°C 🌡\n"
             f"💧 ** Độ ẩm : {humidity}% \n"
             f"💨 ** Tốc độ gió : {wind_kmh} kmh \n"
             f"⚠️ ** Dự báo : {cap_bao_dong}\n"
