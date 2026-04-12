@@ -1,4 +1,7 @@
-import os 
+import os
+import requests  # <-- ĐÂY LÀ DÒNG ĐANG THIẾU
+import time
+import pandas as pd
 # -*- coding: utf-8 -*-
 # Lấy mã từ biến môi trường của GitHub
 NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
@@ -7,11 +10,13 @@ CHAT_ID = os.getenv("CHAT_ID")
 
 # Tọa độ Tây Nguyên (Bounding Box)
 AREA = "107,11,110,16" 
-
 def send_telegram_alert(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"}
-    requests.post(url, data=payload)
+    response = requests.post(url, data=payload)
+    
+    # Dòng này sẽ in ra kết quả phản hồi của Telegram lên GitHub Log
+    print(f"Kết quả gửi Telegram: {response.status_code} - {response.text}")
 
 def check_for_fires():
     # Gọi API NASA lấy dữ liệu CSV
