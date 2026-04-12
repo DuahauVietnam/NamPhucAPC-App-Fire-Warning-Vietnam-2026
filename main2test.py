@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 # Tính toán giờ Việt Nam (UTC+7)
 now_utc = datetime.utcnow()
 now_vn = now_utc + timedelta(hours=7)
-gio_hien_tai = now_vn.strftime('%H:%M:%S')
+gio_hien_tai = now_vn.strftime('%H:%M:%S %D/%M/%Y')
 
 # Lấy mã từ biến môi trường của GitHub
 NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
