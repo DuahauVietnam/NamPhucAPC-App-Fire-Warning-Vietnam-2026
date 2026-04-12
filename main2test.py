@@ -19,7 +19,7 @@ OW_KEY = os.getenv("OW_KEY")
 def get_location_name(lat, lon):
     try:
         # Thêm tham số limit=1 và appid
-        url = f"http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={OPENWEATHER_KEY}"
+        url = f"http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={OW_KEY}"
         response = requests.get(url)
         res = response.json()
         
@@ -48,7 +48,7 @@ def get_location_name(lat, lon):
         return "Khu vực rừng núi (Chưa xác định)"
     except Exception as e:
         print(f"Lỗi lấy địa danh: {e}")
-        return "Tọa độ Tây Nguyên"
+        return "Tọa độ tại Tây Nguyên"
 
 def get_fire_danger(temp, humidity):
     if temp > 35 and humidity < 30:
@@ -68,9 +68,12 @@ def get_weather(lat, lon):
         res = requests.get(url).json()
         temp = res['main']['temp']
         humidity = res['main']['humidity']
-        return temp, humidity
+        wind_speed = res['wind']['speed'] # Tốc độ gió (m/s)
+        # Chuyển m/s sang km/h cho phổ thông
+        wind_kmh = round(wind_speed * 3.6, 1)
+        return temp, humidity, wind_kmh
     except:
-        return None, None
+        return None, None, None
         
 # Tọa độ Tây Nguyên (Bounding Box)
 AREA = "107,11.5,110,15.5" 
@@ -127,13 +130,14 @@ def check_for_fires():
             f"⚠️ **TEST: CẢNH BÁO NGUY CƠ CHÁY KHẨN CẤP **\n"
             f"----------------------------------\n"
             f"📍 **Địa danh:** {dia_danh}\n"
-            f"🌍 **Tọa độ:** `{lat}, {lon}`\n\n"
+            f"🌍 **Tọa độ:** `{lat}, {lon}`\n"
+            f"🔗 [Mở Bản Đồ Vệ Tinh](https://www.google.com/maps?q={lat},{lon}&t=k)\n\n"
             f"🌡 **Nhiệt độ:** 🌡 {temp}°C\n"
             f"💧 **Độ ẩm:** 💧 {humidity}%\n"
-            f"⚠️ **Dự báo:** {cap_bao_dong}\n"
+            f"💨 **Tốc độ gió:** {wind} km/h\n"
+            f"⚠️ **Dự báo :** {cap_bao_dong}\n"
             f"----------------------------------\n"
-            f"⏰ **Cập nhật:** {gio_vn} (Giờ VN)\n\n"
-            f"🔗 [Mở Bản Đồ Vệ Tinh](https://www.google.com/maps?q={lat},{lon})\n"
+            f"⏰ **Cập nhật:** {gio_vn} (Giờ VN)\n"
             f"💪 Độ tin cậy: {conf}%\n\n"
             f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 90% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n"
             f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 39°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức."
