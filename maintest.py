@@ -83,15 +83,28 @@ def send_telegram_alert(message, lat=None, lon=None):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"}
     
+    # Chỉ thêm nút bấm nếu có đủ tọa độ
     if lat and lon:
-        keyboard = {"inline_keyboard": [[
-            {"text": "📍 Xem Vệ Tinh", "url": f"https://www.google.com/maps/@{lat},{lon},15z/data=!3m1!1e3"},
-            {"text": "📞 Báo Kiểm Lâm", "url": "tel:114"}
-        ]]}
-        payload["reply_markup"] = json.dumps(keyboard)
-        
-    response = requests.post(url, data=payload)
-    print(f"Kết quả gửi Telegram: {response.status_code}")
+        try:
+            # Tạo link Google Maps chuẩn (dùng f-string cẩn thận)
+            maps_url = f"https://www.google.com/maps?q={lat},{lon}&t=k"
+            
+            keyboard = {
+                "inline_keyboard": [
+                    [
+                        {"text": "📍 Xem Vệ Tinh", "url": maps_url}                        
+                    ],
+                    [
+                        {"text": "📊 Bản đồ NASA", "url": "https://firms.modaps.eosdis.nasa.gov/map/"}
+                    ],
+                    [                        
+                        {"text": "📞 Báo Kiểm Lâm", "url": "tel:114"}
+                    ]
+                ]
+            }
+            payload["reply_markup"] = json.dumps(keyboard)
+        except Exception as e:
+            print(f"⚠️ Lỗi tạo Keyboard: {e}")
 
 ##================================================================ MAIN PROCESS
 def check_for_fires():
@@ -139,6 +152,8 @@ def check_for_fires():
             f"© NamPhucAPC 2026"
         )
         send_telegram_alert(alert_msg, lat, lon)
+    
+    
     else:
         safe_msg = f"🌿 **BÁO CÁO HÀNG GIỜ**\n\n✅ Tây Nguyên hiện không có điểm nhiệt bất thường.\n⏰ {gio_vn}"
         send_telegram_alert(safe_msg)
