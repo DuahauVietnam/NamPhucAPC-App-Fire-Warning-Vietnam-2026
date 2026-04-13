@@ -23,6 +23,12 @@ jobs:
       - name: Cài đặt thư viện
         run: pip install requests pandas
 
+      # ĐÂY CHÍNH LÀ BƯỚC BẠN ĐANG HỎI:
+      - name: Install dependencies Gspread
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Chạy script cảnh báo
         env:
           NASA_MAP_KEY: ${{ secrets.NASA_MAP_KEY }}
