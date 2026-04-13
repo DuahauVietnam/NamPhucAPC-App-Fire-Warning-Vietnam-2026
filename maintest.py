@@ -91,31 +91,37 @@ def get_fire_danger(temp, humidity):
 
 def send_telegram_alert(message, lat=None, lon=None):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {"chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"}
     
-    # Chỉ thêm nút bấm nếu có đủ tọa độ
-    if lat and lon:
-        try:
-            # Tạo link Google Maps chuẩn (dùng f-string cẩn thận)
-            maps_url = f"https://www.google.com/maps?q={lat},{lon}&t=k"
-            
-            keyboard = {
-                "inline_keyboard": [
-                    [
-                        {"text": "📍 Xem Vệ Tinh", "url": maps_url}                        
-                    ],
-                    [
-                        {"text": "📊 Bản đồ NASA", "url": "https://firms.modaps.eosdis.nasa.gov/map/"}
-                    ],
-                    [                        
-                        {"text": "📞 Báo Kiểm Lâm", "url": "tel:114"}
-                    ]
-                ]
-            }
-            payload["reply_markup"] = json.dumps(keyboard)
-        except Exception as e:
-            print(f"⚠️ Lỗi tạo Keyboard: {e}")
+    # Payload cơ bản
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": message,
+        "parse_mode": "HTML" # Đổi sang HTML để tránh lỗi ký tự đặc biệt của Markdown
+    }
 
+    # Nếu có tọa độ thì thêm nút bấm
+    if lat and lon:
+        # Link map rút gọn, cực kỳ an toàn
+        maps_url = f"https://www.google.com/maps?q={lat},{lon}&t=k"
+        
+        keyboard = {
+            "inline_keyboard": [
+                [
+                    {"text": "📍 Xem Vệ Tinh", "url": maps_url},
+                    {"text": "📞 Báo Cháy", "url": "tel:114"}
+                ]
+            ]
+        }
+        payload["reply_markup"] = json.dumps(keyboard)
+
+    response = requests.post(url, data=payload)
+    
+    # In ra để "bắt bệnh" nếu vẫn không nhận được
+    print(f"--- THÔNG TIN TELEGRAM ---")
+    print(f"Status Code: {response.status_code}")
+    print(f"Phản hồi: {response.text}")
+    
+    
 ##================================================================ MAIN PROCESS
 def check_for_fires():
     TEST_MODE = True # Đổi thành False để chạy thật
