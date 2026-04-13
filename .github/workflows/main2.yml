@@ -36,4 +36,4 @@ jobs:
           CHAT_ID: ${{ secrets.CHAT_ID }}
           OW_KEY: ${{ secrets.OW_KEY }}
           GOOGLE_SHEETS_CREDS: ${{ secrets.GOOGLE_SHEETS_CREDS }}
-        run: python main2test.py
+        run: python maintest.py
