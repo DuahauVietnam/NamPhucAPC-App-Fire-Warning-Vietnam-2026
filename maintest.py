@@ -157,8 +157,9 @@ def check_for_fires():
             f"🔥 **PHÁT HIỆN ĐIỂM NHIỆT KHẨN CẤP**\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"📍 **Địa danh: {dia_danh}\n"
-            f"🌍 **Tọa độ: `{lat}, {lon}` \n\n"
-            f"🔗 [Mở Bản Đồ Vệ Tinh](https://www.google.com/maps?q={lat},{lon}&t=k)\n\n"
+            f"🌍 **Tọa độ: `{lat}, {lon}`\n"
+            ##f"🔗 [Mở Bản Đồ Vệ Tinh](https://www.google.com/maps?q={lat},{lon}&t=k)\n\n"
+            f"🔗 {"text": "📍 Xem Vệ Tinh", "url": maps_url}
             f"🌡 ** Nhiệt độ : {temp}°C 🌡\n"
             f"💧 ** Độ ẩm : {humidity}% \n"
             f"💨 ** Tốc độ gió : {wind_kmh} kmh \n"
