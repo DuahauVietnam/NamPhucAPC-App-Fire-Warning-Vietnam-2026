@@ -21,21 +21,29 @@ GOOGLE_SHEETS_CREDS_STR = os.getenv("GOOGLE_SHEETS_CREDS")
 ##================================================================ GOOGLE SHEETS LOGIC
 def save_to_sheets(data_row):
     try:
-        if not GOOGLE_SHEETS_CREDS_STR:
-            print("❌ Lỗi: Chưa cấu hình GOOGLE_SHEETS_CREDS trong GitHub Secrets")
+        # 1. Lấy chuỗi JSON từ Secret (Dữ liệu lúc này đang là String)
+        creds_json_str = os.getenv("GOOGLE_SHEETS_CREDS")
+        
+        if not creds_json_str:
+            print("❌ Lỗi: Không tìm thấy GOOGLE_SHEETS_CREDS trong Secrets")
             return
-            
-        creds_json = json.loads(GOOGLE_SHEETS_CREDS_STR)
+
+        # 2. Chuyển chuỗi String thành Dictionary (Cực kỳ quan trọng)
+        creds_info = json.loads(creds_json_str)
+        
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        # Sử dụng keyfile_dict để đọc từ biến json trực tiếp
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, scope)
-##        creds = ServiceAccountCredentials.from_json_metadata(creds_json, scope)
+        
+        # 3. Sử dụng đúng hàm from_json_keyfile_dict với biến đã convert
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_info, scope)
         client = gspread.authorize(creds)
         
-        # Mở file Sheets bằng tên chính xác của bạn
+        # Mở file Sheets
         sheet = client.open("2.NhatkythongbaoNPAPCFW2026").sheet1
         sheet.append_row(data_row)
-        print("✅ Đã ghi nhật ký vào Google Sheets thành công.")
+        print("✅ Đã ghi nhật ký thành công.")
+        
+    except json.JSONDecodeError:
+        print("❌ Lỗi: Định dạng JSON trong Secret GOOGLE_SHEETS_CREDS không hợp lệ.")
     except Exception as e:
         print(f"❌ Lỗi ghi Sheets: {e}")
 
