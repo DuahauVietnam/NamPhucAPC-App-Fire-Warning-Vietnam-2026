@@ -168,8 +168,8 @@ def check_for_fires():
             f"⏰ **Cập nhật: {gio_vn}\n"
             f"💪 **Độ tin cậy: {conf}%\n\n"
 
-            f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 80% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n
- Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 38°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức. "
+            f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 80% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n"
+            f" Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 38°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức. \n"
             f"☎️ Hotline báo cháy: <b> 114 </b>\n"
             f"🇻🇳 © NamPhucAPC 2026 - <b> 08888.01202 </b>"
         )
