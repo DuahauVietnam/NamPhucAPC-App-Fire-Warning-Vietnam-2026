@@ -27,7 +27,9 @@ def save_to_sheets(data_row):
             
         creds_json = json.loads(GOOGLE_SHEETS_CREDS_STR)
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_metadata(creds_json, scope)
+        # Sử dụng keyfile_dict để đọc từ biến json trực tiếp
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, scope)
+##        creds = ServiceAccountCredentials.from_json_metadata(creds_json, scope)
         client = gspread.authorize(creds)
         
         # Mở file Sheets bằng tên chính xác của bạn
