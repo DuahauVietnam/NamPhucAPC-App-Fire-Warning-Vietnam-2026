@@ -156,17 +156,22 @@ def check_for_fires():
         alert_msg = (
             f"🔥 **PHÁT HIỆN ĐIỂM NHIỆT KHẨN CẤP**\n"
             f"━━━━━━━━━━━━━━━━━━\n"
-            f"📍 **Địa danh:** {dia_danh}\n"
-            f"🌍 **Tọa độ:** `{lat}, {lon}`\n\n"
-            f"🌡 **Nhiệt độ:** {temp}°C\n"
-            f"💧 **Độ ẩm:** {humidity}%\n"
-            f"💨 **Sức gió:** {wind_kmh} km/h\n"
-            f"⚠️ **Dự báo:** {cap_bao_dong}\n"
+            f"📍 **Địa danh: {dia_danh}\n"
+            f"🌍 **Tọa độ: `{lat}, {lon}`\n\n"
+            f"🔗 [Mở bản đồ vệ tinh](https://www.google.com/maps?q={lat},{lon}&t=k) \n"
+            
+            f"🌡 **Nhiệt độ: {temp}°C\n"
+            f"💧 **Độ ẩm: {humidity}%\n"
+            f"💨 **Sức gió: {wind_kmh} km/h\n"
+            f"⚠️ **Dự báo: {cap_bao_dong}\n"
             f"━━━━━━━━━━━━━━━━━━\n"
-            f"⏰ **Cập nhật:** {gio_vn}\n"
-            f"💪 **Độ tin cậy:** {conf}%\n\n"
-            f"☎️ Hotline báo cháy: **114**\n"
-            f"© NamPhucAPC 2026 - 08888.01202"
+            f"⏰ **Cập nhật: {gio_vn}\n"
+            f"💪 **Độ tin cậy: {conf}%\n\n"
+
+            f" Lưu ý: Nếu Cảnh báo có cháy, nhưng độ ẩm khu vực đó đang là 80% và đang có mưa, bạn có thể nghi ngờ đó là lỗi cảm biến hoặc cháy nhỏ đã bị dập tắt.\n
+ Đánh giá mức độ nguy hiểm: Nếu nhiệt độ là > 38°C và độ ẩm < 25%, đó là tình trạng cực kỳ khẩn cấp, cần báo động ngay lập tức. "
+            f"☎️ Hotline báo cháy: <b> 114 </b>\n"
+            f"© NamPhucAPC 2026 - <b> 08888.01202 </b>"
         )
         send_telegram_alert(alert_msg, lat, lon)
     
