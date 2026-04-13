@@ -103,12 +103,13 @@ def send_telegram_alert(message, lat=None, lon=None):
     if lat and lon:
         # Link map rút gọn, cực kỳ an toàn
         maps_url = f"https://www.google.com/maps?q={lat},{lon}&t=k"
+        nasa_url = "https://firms.modaps.eosdis.nasa.gov/map/"
         
         keyboard = {
             "inline_keyboard": [
                 [
                     {"text": "📍 Xem Vệ Tinh", "url": maps_url},
-                    {"text": "📞 Báo Cháy", "url": "tel:114"}
+                    {"text": "📞 Xem Website", "url": nasa_url}
                 ]
             ]
         }
@@ -165,7 +166,7 @@ def check_for_fires():
             f"⏰ **Cập nhật:** {gio_vn}\n"
             f"💪 **Độ tin cậy:** {conf}%\n\n"
             f"☎️ Hotline báo cháy: **114**\n"
-            f"© NamPhucAPC 2026"
+            f"© NamPhucAPC 2026 - 08888.01202"
         )
         send_telegram_alert(alert_msg, lat, lon)
     
