@@ -125,7 +125,7 @@ def send_telegram_alert(message, lat=None, lon=None):
     
 ##================================================================ MAIN PROCESS
 def check_for_fires():
-    TEST_MODE = True # Đổi thành False để chạy thật
+    TEST_MODE = False  # Đổi thành False để chạy thật
 
     if TEST_MODE:
         data_to_process = "latitude,longitude,brightness,scan,track,acq_date,acq_time,satellite,confidence,version,bright_t31,frp,daynight\n14.352,108.123,340.5,0.4,0.4,2026-04-12,08:30,N,95,6.1N,285.4,15.2,D"
