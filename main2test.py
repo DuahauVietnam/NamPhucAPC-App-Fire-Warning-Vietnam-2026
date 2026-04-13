@@ -3,25 +3,55 @@ import os
 import requests  
 import time
 import pandas as pd
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 # -*- coding: utf-8 -*-
+
+##====================================================================================================== A R E A
 # Tọa độ Tây Nguyên (Bounding Box)
 AREA = "107,11.5,110,15.5" 
 
-##======================================================================================================
+##====================================================================================================== A P I - K E Y
 # Lấy mã từ biến môi trường của GitHub
 NASA_MAP_KEY = os.getenv("NASA_MAP_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 OW_KEY = os.getenv("OW_KEY")
 
-##======================================================================================================
-
+##====================================================================================================== E X  C H A  N G E - T I M E
 from datetime import datetime, timedelta
 # Tính toán giờ Việt Nam (UTC+7)
 now_utc = datetime.utcnow()
 now_vn = now_utc + timedelta(hours=7)
 gio_hien_tai = now_vn.strftime('%H:%M:%S %D')
 
+
+##====================================================================================================== G O O G L E - C L O U D 
+def save_to_sheets(data_row):
+    try:
+        # Lấy nội dung JSON từ GitHub Secrets
+        creds_json = json.loads(os.getenv("GOOGLE_SHEETS_CREDS"))
+        
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = ServiceAccountCredentials.from_json_metadata(creds_json, scope)
+        client = gspread.authorize(creds)
+        
+        # Mở file Sheets (Thay bằng tên file của bạn hoặc ID file)
+        sheet = client.open("2.NhatkythongbaoNPAPCFW2026").sheet1
+        
+        # Ghi một dòng mới vào cuối bảng
+        sheet.append_row(data_row)
+        print("✅ Đã ghi nhật ký vào Google Sheets thành công.")
+    except Exception as e:
+        print(f"❌ Lỗi ghi Sheets: {e}")
+
+# Trong hàm main(), đoạn xử lý khi có cháy:
+if len(lines) > 1:
+    # ... (lấy dữ liệu lat, lon, temp, humi, wind, dia_danh, nguy_co) ...
+    
+    # Chuẩn bị dòng dữ liệu để lưu
+    data_row = [gio_vn, dia_danh, f"{lat}, {lon}", temp, humi, wind, nguy_co]
+    save_to_sheets(data_row)
 ##======================================================================================================
 
 ### LẤY ĐỊA CHỈ TỪ TỌA ĐỘ
