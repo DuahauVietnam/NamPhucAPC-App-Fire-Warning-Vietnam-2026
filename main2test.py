@@ -185,9 +185,7 @@ def check_for_fires():
         temp, humidity, wind_kmh = get_weather(lat, lon)  
         cap_bao_dong = get_fire_danger(temp, humidity)
         weather_info = f"🌡 Nhiệt độ: {temp}°C | 💧 Độ ẩm: {humidity}%" if temp else "⚠️ Không lấy được dữ liệu thời tiết"
-         # Giờ Việt Nam
-        now_vn = datetime.utcnow() + timedelta(hours=7)
-        gio_vn = now_vn.strftime('%H:%M:%S %D')
+       
 
         
         alert_msg = (
