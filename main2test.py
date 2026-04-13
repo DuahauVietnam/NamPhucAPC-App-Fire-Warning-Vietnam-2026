@@ -23,7 +23,7 @@ from datetime import datetime, timedelta
 # Tính toán giờ Việt Nam (UTC+7)
 now_utc = datetime.utcnow()
 now_vn = now_utc + timedelta(hours=7)
-gio_hien_tai = now_vn.strftime('%H:%M:%S %D')
+gio_vn = now_vn.strftime('%H:%M:%S %D')
 
 
 ##====================================================================================================== G O O G L E - C L O U D 
